@@ -1,3 +1,4 @@
+#include <cstdlib>
 #define GLFW_INCLUDE_VULAN
 
 #include <GLFW/glfw3.h>
@@ -7,9 +8,14 @@
 #include <iostream>
 #include <string>
 
+#include "VulkanRenderer.h"
+
 GLFWwindow* window;
 
-void initWindow(std::string wName = "Test Window", const int width = 800, const int height = 600 ){
+VulkanRenderer vulkanRenderer;
+
+void initWindow(std::string wName = "Test Window", const int width = 800, const int height = 600 )
+{
 
     //Initialise GLFW
     glfwInit();
@@ -21,10 +27,16 @@ void initWindow(std::string wName = "Test Window", const int width = 800, const 
     window = glfwCreateWindow(width, height, wName.c_str(), nullptr, nullptr);
 }
 
-int main() {
-
+int main() 
+{
     //Creted Window
     initWindow();
+
+    // Create Vulkan Renderer Instance
+    if (vulkanRenderer.init(window) == EXIT_FAILURE)
+    {
+        return EXIT_FAILURE;
+    }
 
     //Loop untill closed
     while (!glfwWindowShouldClose(window)) {
